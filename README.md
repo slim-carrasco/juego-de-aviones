@@ -1,4 +1,5 @@
 ## Estructura
+```text
 juego-de-aviones/
 ├─ JuegoAviones.Core/                  # Reglas del juego + orquestación (fusión Domain+Application)
 │  ├─ Entidades/
@@ -33,7 +34,7 @@ juego-de-aviones/
 │  └─ terraform/
 │
 └─ docs/
-
+```
 ## Roles
 - **Backend**: mueve el código existente hacia Core (ImpactarTick, CrearMisil, CrearNave → reglas y entidades), y deja Form1.cs solo con lo visual, llamando a Core
 - **Frontend**: sin código todavía — el juego debe seguir viéndose y jugándose exactamente igual que antes, no hay pantallas nuevas en esta fase
