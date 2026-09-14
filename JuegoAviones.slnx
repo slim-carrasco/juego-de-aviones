@@ -1,0 +1,8 @@
+<Solution>
+  <Project Path="JuegoAviones.Contracts/JuegoAviones.Contracts.csproj" />
+  <Project Path="JuegoAviones.Core/JuegoAviones.Core.csproj" />
+  <Project Path="JuegoAviones.csproj" />
+  <Project Path="JuegoAviones.Data/JuegoAviones.Data.csproj" />
+  <Project Path="JuegoAviones.Servidor/JuegoAviones.Servidor.csproj" />
+  <Project Path="JuegoAviones.Tests/JuegoAviones.Tests.csproj" />
+</Solution>
