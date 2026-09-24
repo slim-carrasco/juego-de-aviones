@@ -1,0 +1,85 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\HI_KA\\juego-de-aviones\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{EC335517-4BB3-CA89-287B-48968C9A8826}|JuegoAviones.csproj|c:\\users\\hi_ka\\juego-de-aviones\\juegoaviones.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{EC335517-4BB3-CA89-287B-48968C9A8826}|JuegoAviones.csproj|solutionrelative:juegoaviones.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{6C24C1C4-35E6-AE5A-0E58-03ACC507EE93}|JuegoAviones.Contracts\\JuegoAviones.Contracts.csproj|c:\\users\\hi_ka\\juego-de-aviones\\juegoaviones.contracts\\juegoaviones.contracts.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{6C24C1C4-35E6-AE5A-0E58-03ACC507EE93}|JuegoAviones.Contracts\\JuegoAviones.Contracts.csproj|solutionrelative:juegoaviones.contracts\\juegoaviones.contracts.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{BC1E23B6-4AFC-9461-0BF0-D8FA381A6EF0}|JuegoAviones.Data\\JuegoAviones.Data.csproj|c:\\users\\hi_ka\\juego-de-aviones\\juegoaviones.data\\juegoaviones.data.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{BC1E23B6-4AFC-9461-0BF0-D8FA381A6EF0}|JuegoAviones.Data\\JuegoAviones.Data.csproj|solutionrelative:juegoaviones.data\\juegoaviones.data.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "JuegoAviones.Contracts.csproj",
+              "DocumentMoniker": "C:\\Users\\HI_KA\\juego-de-aviones\\JuegoAviones.Contracts\\JuegoAviones.Contracts.csproj",
+              "RelativeDocumentMoniker": "JuegoAviones.Contracts\\JuegoAviones.Contracts.csproj",
+              "ToolTip": "C:\\Users\\HI_KA\\juego-de-aviones\\JuegoAviones.Contracts\\JuegoAviones.Contracts.csproj",
+              "RelativeToolTip": "JuegoAviones.Contracts\\JuegoAviones.Contracts.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-09-14T18:06:08.884Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "JuegoAviones.Data.csproj",
+              "DocumentMoniker": "C:\\Users\\HI_KA\\juego-de-aviones\\JuegoAviones.Data\\JuegoAviones.Data.csproj",
+              "RelativeDocumentMoniker": "JuegoAviones.Data\\JuegoAviones.Data.csproj",
+              "ToolTip": "C:\\Users\\HI_KA\\juego-de-aviones\\JuegoAviones.Data\\JuegoAviones.Data.csproj",
+              "RelativeToolTip": "JuegoAviones.Data\\JuegoAviones.Data.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-09-14T18:05:17.692Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "JuegoAviones.csproj",
+              "DocumentMoniker": "C:\\Users\\HI_KA\\juego-de-aviones\\JuegoAviones.csproj",
+              "RelativeDocumentMoniker": "JuegoAviones.csproj",
+              "ToolTip": "C:\\Users\\HI_KA\\juego-de-aviones\\JuegoAviones.csproj",
+              "RelativeToolTip": "JuegoAviones.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2026-09-14T18:05:07.955Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 383,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{eefa5220-e298-11d0-8f78-00a0c9110057}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

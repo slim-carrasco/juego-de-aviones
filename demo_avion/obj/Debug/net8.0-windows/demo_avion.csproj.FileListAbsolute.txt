@@ -1,0 +1,16 @@
+C:\Users\HI_KA\Downloads\Redes 1\demo_avion\obj\Debug\net8.0-windows\demo_avion.csproj.GenerateResource.cache
+C:\Users\HI_KA\Downloads\Redes 1\demo_avion\obj\Debug\net8.0-windows\demo_avion.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\HI_KA\Downloads\Redes 1\demo_avion\obj\Debug\net8.0-windows\demo_avion.AssemblyInfoInputs.cache
+C:\Users\HI_KA\Downloads\Redes 1\demo_avion\obj\Debug\net8.0-windows\demo_avion.AssemblyInfo.cs
+C:\Users\HI_KA\Downloads\Redes 1\demo_avion\obj\Debug\net8.0-windows\demo_avion.csproj.CoreCompileInputs.cache
+C:\Users\HI_KA\Downloads\Redes 1\demo_avion\bin\Debug\net8.0-windows\demo_avion.exe
+C:\Users\HI_KA\Downloads\Redes 1\demo_avion\bin\Debug\net8.0-windows\demo_avion.deps.json
+C:\Users\HI_KA\Downloads\Redes 1\demo_avion\bin\Debug\net8.0-windows\demo_avion.runtimeconfig.json
+C:\Users\HI_KA\Downloads\Redes 1\demo_avion\bin\Debug\net8.0-windows\demo_avion.dll
+C:\Users\HI_KA\Downloads\Redes 1\demo_avion\bin\Debug\net8.0-windows\demo_avion.pdb
+C:\Users\HI_KA\Downloads\Redes 1\demo_avion\obj\Debug\net8.0-windows\demo_avion.Form1.resources
+C:\Users\HI_KA\Downloads\Redes 1\demo_avion\obj\Debug\net8.0-windows\demo_avion.dll
+C:\Users\HI_KA\Downloads\Redes 1\demo_avion\obj\Debug\net8.0-windows\refint\demo_avion.dll
+C:\Users\HI_KA\Downloads\Redes 1\demo_avion\obj\Debug\net8.0-windows\demo_avion.pdb
+C:\Users\HI_KA\Downloads\Redes 1\demo_avion\obj\Debug\net8.0-windows\demo_avion.genruntimeconfig.cache
+C:\Users\HI_KA\Downloads\Redes 1\demo_avion\obj\Debug\net8.0-windows\ref\demo_avion.dll

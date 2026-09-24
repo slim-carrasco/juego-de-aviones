@@ -1,0 +1,23 @@
+{
+  "version": 2,
+  "dgSpecHash": "p6YidVmmIlk=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\HI_KA\\Downloads\\Redes 1\\demo_avion\\demo_avion.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\HI_KA\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\8.0.29\\microsoft.windowsdesktop.app.ref.8.0.29.nupkg.sha512",
+    "C:\\Users\\HI_KA\\.nuget\\packages\\microsoft.netcore.app.ref\\8.0.29\\microsoft.netcore.app.ref.8.0.29.nupkg.sha512",
+    "C:\\Users\\HI_KA\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\8.0.29\\microsoft.aspnetcore.app.ref.8.0.29.nupkg.sha512",
+    "C:\\Users\\HI_KA\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\8.0.29\\microsoft.netcore.app.host.win-x64.8.0.29.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1900",
+      "level": "Warning",
+      "message": "Error al obtener los datos de vulnerabilidad del paquete: No se puede cargar el índice de servicio del origen https://api.nuget.org/v3/index.json.",
+      "projectPath": "C:\\Users\\HI_KA\\Downloads\\Redes 1\\demo_avion\\demo_avion.csproj",
+      "warningLevel": 1,
+      "filePath": "C:\\Users\\HI_KA\\Downloads\\Redes 1\\demo_avion\\demo_avion.csproj",
+      "targetGraphs": []
+    }
+  ]
+}
