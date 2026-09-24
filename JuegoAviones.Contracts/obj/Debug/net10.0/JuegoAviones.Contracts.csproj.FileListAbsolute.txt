@@ -1,0 +1,12 @@
+C:\Users\HI_KA\juego-de-aviones\JuegoAviones.Contracts\bin\Debug\net10.0\JuegoAviones.Contracts.deps.json
+C:\Users\HI_KA\juego-de-aviones\JuegoAviones.Contracts\bin\Debug\net10.0\JuegoAviones.Contracts.dll
+C:\Users\HI_KA\juego-de-aviones\JuegoAviones.Contracts\bin\Debug\net10.0\JuegoAviones.Contracts.pdb
+C:\Users\HI_KA\juego-de-aviones\JuegoAviones.Contracts\obj\Debug\net10.0\JuegoAviones.Contracts.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\HI_KA\juego-de-aviones\JuegoAviones.Contracts\obj\Debug\net10.0\JuegoAviones.Contracts.AssemblyInfoInputs.cache
+C:\Users\HI_KA\juego-de-aviones\JuegoAviones.Contracts\obj\Debug\net10.0\JuegoAviones.Contracts.AssemblyInfo.cs
+C:\Users\HI_KA\juego-de-aviones\JuegoAviones.Contracts\obj\Debug\net10.0\JuegoAviones.Contracts.csproj.CoreCompileInputs.cache
+C:\Users\HI_KA\juego-de-aviones\JuegoAviones.Contracts\obj\Debug\net10.0\JuegoAviones.Contracts.sourcelink.json
+C:\Users\HI_KA\juego-de-aviones\JuegoAviones.Contracts\obj\Debug\net10.0\JuegoAviones.Contracts.dll
+C:\Users\HI_KA\juego-de-aviones\JuegoAviones.Contracts\obj\Debug\net10.0\refint\JuegoAviones.Contracts.dll
+C:\Users\HI_KA\juego-de-aviones\JuegoAviones.Contracts\obj\Debug\net10.0\JuegoAviones.Contracts.pdb
+C:\Users\HI_KA\juego-de-aviones\JuegoAviones.Contracts\obj\Debug\net10.0\ref\JuegoAviones.Contracts.dll
