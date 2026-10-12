@@ -17,4 +17,9 @@
     <Compile Remove="JuegoAviones.Tests\**" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Assets\condor-fighter.png" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
+    <ProjectReference Include="JuegoAviones.Core\JuegoAviones.Core.csproj" />
+  </ItemGroup>
+
 </Project>
