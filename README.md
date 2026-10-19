@@ -10,18 +10,18 @@ La [guía de exposición para cinco personas](docs/EXPOSICION-5-PERSONAS.md) inc
 
 ## Ejecutar en Windows
 
-Desde CMD, dentro de la carpeta del proyecto y con el SDK de .NET 10:
+En la máquina virtual de Windows, este repositorio se ve en
+`Z:\juego-de-aviones`. Con el SDK de .NET 10 instalado, se puede hacer doble
+clic en `ejecutar.bat`. También se puede ejecutar desde CMD:
 
 ```cmd
+cd /d Z:\juego-de-aviones
 dotnet build JuegoAviones.csproj --no-incremental
 dotnet run --project JuegoAviones.csproj --no-build
 ```
 
-Si accedes desde WSL, primero entra a la carpeta con:
-
-```cmd
-pushd \\wsl.localhost\Ubuntu\home\david\Trabajos_U\juego-de-aviones
-```
+En Linux se trabaja desde `/home/joel/Work/juego-de-aviones`, enlace a la
+misma carpeta compartida; los cambios aparecen en la VM sin copiar archivos.
 
 Enter inicia la partida. Las flechas mueven el avión. Enter o Espacio dispara. P/Esc pausa y R reinicia. La partida también se pausa cuando la ventana pierde el foco.
 
