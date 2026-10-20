@@ -4,7 +4,7 @@ Práctica de C# con Windows Forms: integrar un avión al formulario usando progr
 
 La clase base `Aeronave` define atributos y métodos; `AeronaveJugador` y `AeronaveRival` implementan disparos distintos mediante polimorfismo. La pantalla muestra una medida de profiling: tiempo promedio de 60 actualizaciones de la lógica durante la partida. Core coordina el combate; el cliente dibuja las aeronaves y envía los resultados al servidor HTTP existente para guardarlos en PostgreSQL.
 
-La explicación del dibujo y de su integración está en [docs/DISENO-AVION.md](docs/DISENO-AVION.md).
+La explicación del dibujo y de su integración se encuentra en [docs/DISENO-AVION.md](docs/DISENO-AVION.md).
 
 La [guía de exposición para cinco personas](docs/EXPOSICION-5-PERSONAS.md) incluye el reparto, los archivos y bloques que deben abrir, ejemplos de código, guiones breves, métricas y preguntas del docente.
 
