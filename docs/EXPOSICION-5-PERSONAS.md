@@ -8,7 +8,7 @@ Las rutas se indican desde la carpeta principal del proyecto. En Visual Studio o
 
 | Persona | Tema | Archivo y línea inicial | Bloque principal |
 | --- | --- | --- | --- |
-| 1 | Objetivo y cliente-servidor | `Form1.cs`, línea 63 | `OnCompleted` y envío HTTP |
+| 1 | Objetivo y cliente-servidor | `Form1.cs`, método `OnCompleted` | Acceso y envío HTTP |
 | 1 | Caso de uso de registro | `JuegoAviones.Core/CasosDeUso/PartidaService.cs`, línea 8 | `RegistrarAsync` |
 | 2 | Clase, atributos y encapsulación | `JuegoAviones.Core/Entidades/Aeronave.cs`, línea 6 | Propiedades, constructor, `MoverA` y `RecibirImpacto` |
 | 3 | Herencia y polimorfismo | `JuegoAviones.Core/Entidades/AeronaveJugador.cs`, línea 3; `AeronaveRival.cs`, línea 3 | Herencia y métodos `override` |
@@ -23,23 +23,18 @@ Los números de línea corresponden a esta versión; si el código cambia, busqu
 
 ### Qué puede decir
 
-> La práctica consiste en mostrar aeronaves en un formulario y aplicar programación orientada a objetos y buenas prácticas. El proyecto utiliza C# con Windows Forms. El cliente muestra el juego y recibe el teclado; Core coordina el combate. Cuando termina una partida, el cliente envía el resultado al servidor HTTP. El servidor valida la partida y utiliza un repositorio para guardarla en PostgreSQL. Este es el caso de uso de registrar una partida.
+> La práctica consiste en mostrar aeronaves en un formulario y aplicar programación orientada a objetos y buenas prácticas. El proyecto utiliza C# con Windows Forms. Una cuenta abre el entorno de juego. En modo multijugador local, dos personas juegan en la misma ventana. El cliente recibe ambos controles y Core coordina el combate. El servidor valida la sesión y guarda los resultados en MySQL mediante un repositorio.
 
 ### Código para mostrar
 
 En `Form1.cs`, dentro de `OnCompleted`:
 
 ```csharp
-using var response = await api.PostAsJsonAsync("/api/partidas", new
-{
-    jugador = "Jugador",
-    resultado = game.State == FlightState.Victory ? "Ganaste" : "Perdiste",
-    vidaJugador = game.PlayerHealth,
-    vidaRival = game.EnemyHealth
-}, lifetime.Token);
+mensaje.Headers.Authorization = new AuthenticationHeaderValue("Bearer", sesion.Token);
+using var respuesta = await api.SendAsync(mensaje, lifetime.Token);
 ```
 
-Explicar que `PostAsJsonAsync` envía esos datos como JSON. `await` permite esperar la respuesta sin bloquear la ventana. El cliente utiliza `http://localhost:5080`, configurado en el mismo archivo.
+Antes de estas líneas, el método crea `mensaje` con el resultado individual o de duelo en JSON. Ambos modos usan el mismo token del acceso inicial. `await` permite esperar sin bloquear la ventana. El cliente utiliza `http://localhost:5080`.
 
 En `PartidaService.cs`, dentro de `RegistrarAsync`:
 
@@ -56,14 +51,14 @@ flowchart LR
     C[Cliente: Form1] -->|HTTP y JSON| S[Servidor: endpoint]
     S --> U[PartidaService]
     U --> R[Repositorio]
-    R --> D[(PostgreSQL)]
+    R --> D[(MySQL)]
 ```
 
 ### Demostración y pregunta posible
 
-Mostrar el juego y señalar jugador, rival y vidas. Si el servidor y PostgreSQL están activos, terminar una partida y comprobar el ranking.
+Mostrar el acceso al juego con la cuenta de prueba, señalar J1, J2 y sus vidas, terminar un duelo y comprobar el ranking.
 
-**¿Qué hace el servidor?** Valida y guarda los resultados, y permite consultar el ranking. El movimiento del combate se calcula localmente en Core; esta versión no sincroniza un combate multijugador por red.
+**¿Qué hace el servidor?** Crea la cuenta inicial, verifica la contraseña, guarda resultados y permite consultar el ranking. El combate se calcula localmente en Core; los dos jugadores comparten una PC y ventana.
 
 ## Persona 2: clase, atributos, constructor y encapsulación
 
@@ -206,7 +201,7 @@ Moverse hasta un borde, disparar y mostrar la disminución de la vida. Pausar co
 
 ### Qué puede decir
 
-> Medimos el tiempo que tarda una actualización de la lógica con Stopwatch. Durante una partida activa reunimos 60 muestras y mostramos su promedio en milisegundos. También tenemos pruebas automatizadas para comprobar reglas del juego y validaciones de los registros. En la última ejecución comprobada pasaron 13 pruebas y no falló ninguna. La separación entre modelo, dibujo y comunicación facilita entender el código y probarlo.
+> Medimos el tiempo que tarda una actualización de la lógica con Stopwatch. Durante una partida activa reunimos 60 muestras y mostramos su promedio en milisegundos. También tenemos pruebas automatizadas para comprobar reglas del juego y validaciones de los registros. En la última ejecución comprobada pasaron 15 pruebas y no falló ninguna. La separación entre modelo, dibujo y comunicación facilita entender el código y probarlo.
 
 ### Código para mostrar
 
@@ -277,7 +272,7 @@ El PNG es una imagen conceptual generada con IA e integrada al proyecto. Su info
 En CMD de Windows, entrar a la carpeta:
 
 ```cmd
-pushd \\wsl.localhost\Ubuntu\home\david\Trabajos_U\juego-de-aviones
+cd /d Z:\juego-de-aviones
 ```
 
 Compilar y abrir el juego:
@@ -295,12 +290,14 @@ dotnet test JuegoAviones.Tests\JuegoAviones.Tests.csproj --artifacts-path "%TEMP
 
 La carpeta temporal mantiene los archivos de las pruebas separados de los del ejecutable. Se requiere el SDK de .NET 10.
 
-Para demostrar el guardado, iniciar PostgreSQL con Docker y luego el servidor en una ventana independiente:
+Para demostrar el guardado, iniciar MySQL desde Omarchy:
 
-```cmd
-docker compose -f infra\docker-compose.yml up -d
-dotnet run --project JuegoAviones.Servidor\JuegoAviones.Servidor.csproj --urls http://localhost:5080
+```bash
+cd /home/joel/Work/juego-de-aviones
+docker compose -f infra/docker-compose.yml up -d --wait
 ```
+
+Después, en Windows, abrir `Z:\juego-de-aviones\iniciar-servidor.bat` y `ejecutar.bat`.
 
 Comprobar desde otro CMD:
 
@@ -309,7 +306,7 @@ curl http://localhost:5080/health
 curl http://localhost:5080/api/partidas/ranking
 ```
 
-El servidor necesita conectarse a PostgreSQL para arrancar. El juego puede ejecutarse sin servidor, pero en ese caso informa que el resultado no se guardó.
+El servidor necesita conectarse a MySQL para arrancar. El juego pide una sola cuenta antes de abrir cualquiera de los dos modos; J1 y J2 comparten esa sesión en el multijugador local.
 
 ## Orden de la demostración
 
