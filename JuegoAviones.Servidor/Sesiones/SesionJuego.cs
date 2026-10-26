@@ -1,3 +1,3 @@
 namespace JuegoAviones.Servidor.Sesiones;
 
-public sealed record SesionJuego(Guid Id, DateTime CreadaUtc);
+public sealed record SesionJuego(string Token, int UsuarioId, string Nombre, DateTime VenceUtc);

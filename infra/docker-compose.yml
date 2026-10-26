@@ -1,20 +1,22 @@
 services:
-  postgres:
-    image: postgres:16-alpine
-    container_name: juegoaviones-postgres
+  mysql:
+    image: mysql:8.4
+    container_name: juegoaviones-mysql
     environment:
-      POSTGRES_DB: juegoaviones
-      POSTGRES_USER: juego
-      POSTGRES_PASSWORD: juego_dev
+      MYSQL_DATABASE: juegoaviones
+      MYSQL_USER: juego
+      MYSQL_PASSWORD: juego_dev
+      MYSQL_ROOT_PASSWORD: root_dev
     ports:
-      - "5432:5432"
+      - "127.0.0.1:3307:3306"
+      - "172.17.0.1:3307:3306"
     volumes:
-      - juegoaviones-postgres-data:/var/lib/postgresql/data
+      - juegoaviones-mysql-data:/var/lib/mysql
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U juego -d juegoaviones"]
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -u root -p$$MYSQL_ROOT_PASSWORD"]
       interval: 5s
       timeout: 5s
-      retries: 5
+      retries: 20
 
 volumes:
-  juegoaviones-postgres-data:
+  juegoaviones-mysql-data:

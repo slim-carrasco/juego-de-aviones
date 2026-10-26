@@ -6,4 +6,6 @@ public sealed record PartidaResponse(
     string Resultado,
     int VidaJugador,
     int VidaRival,
-    DateTime FechaUtc);
+    DateTime FechaUtc,
+    string Modo,
+    string? Oponente);

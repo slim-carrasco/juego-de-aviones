@@ -6,6 +6,8 @@ public sealed class Partida
 
     public int Id { get; private set; }
     public string Jugador { get; private set; } = string.Empty;
+    public string? Oponente { get; private set; }
+    public string Modo { get; private set; } = "Solo";
     public ResultadoPartida Resultado { get; private set; }
     public int VidaJugador { get; private set; }
     public int VidaRival { get; private set; }
@@ -16,7 +18,9 @@ public sealed class Partida
         ResultadoPartida resultado,
         int vidaJugador,
         int vidaRival,
-        DateTime? fechaUtc = null)
+        DateTime? fechaUtc = null,
+        string modo = "Solo",
+        string? oponente = null)
     {
         if (string.IsNullOrWhiteSpace(jugador))
             throw new ArgumentException("El jugador es obligatorio.", nameof(jugador));
@@ -30,9 +34,17 @@ public sealed class Partida
         if (vidaRival is < 0 or > 50)
             throw new ArgumentOutOfRangeException(nameof(vidaRival), "La vida del rival debe estar entre 0 y 50.");
 
+        if (modo is not ("Solo" or "MultijugadorLocal"))
+            throw new ArgumentException("El modo de juego no es válido.", nameof(modo));
+
+        if (modo == "MultijugadorLocal" && (string.IsNullOrWhiteSpace(oponente) || oponente.Trim() == jugador.Trim()))
+            throw new ArgumentException("El oponente debe ser un usuario distinto.", nameof(oponente));
+
         return new Partida
         {
             Jugador = jugador.Trim(),
+            Oponente = oponente?.Trim(),
+            Modo = modo,
             Resultado = resultado,
             VidaJugador = vidaJugador,
             VidaRival = vidaRival,

@@ -1,6 +1,7 @@
 using JuegoAviones.Contracts.DTO;
 using JuegoAviones.Core.CasosDeUso;
 using JuegoAviones.Core.Entidades;
+using JuegoAviones.Servidor.Sesiones;
 
 namespace JuegoAviones.Servidor.Red;
 
@@ -13,8 +14,14 @@ public static class PartidasEndpoints
         grupo.MapPost("", async (
             RegistrarPartidaRequest request,
             PartidaService service,
+            SesionService sesiones,
+            HttpRequest http,
             CancellationToken cancellationToken) =>
         {
+            var sesion = sesiones.ResolverBearer(http.Headers.Authorization);
+            if (sesion is null) return Results.Unauthorized();
+            if (!string.Equals(request.Jugador, sesion.Nombre, StringComparison.OrdinalIgnoreCase))
+                return Results.BadRequest(new { error = "El jugador no coincide con la sesión." });
             if (!Enum.TryParse<ResultadoPartida>(request.Resultado, ignoreCase: false, out var resultado))
                 return Results.ValidationProblem(new Dictionary<string, string[]>
                 {
@@ -24,7 +31,7 @@ public static class PartidasEndpoints
             try
             {
                 var partida = await service.RegistrarAsync(
-                    request.Jugador,
+                    sesion.Nombre,
                     resultado,
                     request.VidaJugador,
                     request.VidaRival,
@@ -40,6 +47,31 @@ public static class PartidasEndpoints
                 });
             }
         }).WithName("RegistrarPartida");
+
+        grupo.MapPost("/duelo", async (
+            RegistrarDueloRequest request,
+            PartidaService service,
+            SesionService sesiones,
+            HttpRequest http,
+            CancellationToken cancellationToken) =>
+        {
+            var sesion = sesiones.ResolverBearer(http.Headers.Authorization);
+            if (sesion is null) return Results.Unauthorized();
+            try
+            {
+                var duelo = await service.RegistrarDueloAsync($"{sesion.Nombre} (J1)", $"{sesion.Nombre} (J2)",
+                    request.Ganador, request.VidaJugador1, request.VidaJugador2, cancellationToken);
+                return Results.Created("/api/partidas/duelo", new
+                {
+                    jugador1 = ToResponse(duelo.Jugador1),
+                    jugador2 = ToResponse(duelo.Jugador2)
+                });
+            }
+            catch (ArgumentException error)
+            {
+                return Results.ValidationProblem(new Dictionary<string, string[]> { ["duelo"] = [error.Message] });
+            }
+        }).WithName("RegistrarDuelo");
 
         grupo.MapGet("/{id:int}", async (
             int id,
@@ -71,5 +103,7 @@ public static class PartidasEndpoints
         partida.Resultado.ToString(),
         partida.VidaJugador,
         partida.VidaRival,
-        partida.FechaUtc);
+        partida.FechaUtc,
+        partida.Modo,
+        partida.Oponente);
 }

@@ -13,6 +13,12 @@ public sealed class PartidaRepository(JuegoDbContext db) : IPartidaRepository
         await db.SaveChangesAsync(cancellationToken);
     }
 
+    public async Task AgregarMultiplesAsync(IReadOnlyList<Partida> partidas, CancellationToken cancellationToken)
+    {
+        db.Partidas.AddRange(partidas);
+        await db.SaveChangesAsync(cancellationToken);
+    }
+
     public Task<Partida?> ObtenerPorIdAsync(int id, CancellationToken cancellationToken) =>
         db.Partidas.AsNoTracking().SingleOrDefaultAsync(partida => partida.Id == id, cancellationToken);
 
