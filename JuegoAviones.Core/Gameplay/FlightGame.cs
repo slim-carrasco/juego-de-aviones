@@ -4,6 +4,7 @@ using JuegoAviones.Core.Entidades;
 namespace JuegoAviones.Core.Gameplay;
 
 public enum FlightState { Ready, Playing, Paused, Victory, Defeat }
+public enum GameMode { Solo, MultijugadorLocal }
 
 // Reglas del juego. Las posiciones se miden dentro de un escenario de 560 x 640.
 public sealed class FlightGame
@@ -12,8 +13,10 @@ public sealed class FlightGame
     public const float Height = 640;
     private readonly List<Projectile> projectiles = [];
     private float enemyDirection = 1;
-    private float enemyFire;
+    private float enemyAutoFire;
+    private float rivalFire;
     private float playerFire;
+    public GameMode Mode { get; private set; } = GameMode.Solo;
     public FlightState State { get; private set; } = FlightState.Ready;
     public Aeronave AvionJugador { get; private set; } = CrearJugador();
     public Aeronave AvionRival { get; private set; } = CrearRival();
@@ -21,6 +24,7 @@ public sealed class FlightGame
     public PointF Enemy => AvionRival.Posicion;
     public int PlayerHealth => AvionJugador.Vida;
     public int EnemyHealth => AvionRival.Vida;
+    public int EnemyMaxHealth => AvionRival.VidaInicial;
     public int Shots { get; private set; }
     public int Hits { get; private set; }
     public float Elapsed { get; private set; }
@@ -31,16 +35,18 @@ public sealed class FlightGame
     public event Action? Completed;
 
     private static Aeronave CrearJugador() => new AeronaveJugador();
-    private static Aeronave CrearRival() => new AeronaveRival();
+    private static Aeronave CrearRival(GameMode mode = GameMode.Solo) =>
+        new AeronaveRival(mode == GameMode.MultijugadorLocal);
 
-    public void Start()
+    public void Start(GameMode mode = GameMode.Solo)
     {
+        Mode = mode;
         // Reiniciar posiciones, vidas y proyectiles para una nueva partida.
         projectiles.Clear();
         AvionJugador = CrearJugador();
-        AvionRival = CrearRival();
+        AvionRival = CrearRival(mode);
         Shots = Hits = 0;
-        Elapsed = HitFlash = playerFire = enemyFire = 0;
+        Elapsed = HitFlash = playerFire = rivalFire = enemyAutoFire = 0;
         enemyDirection = 1;
         State = FlightState.Playing;
     }
@@ -52,32 +58,56 @@ public sealed class FlightGame
     }
 
     public void Update(float seconds, float horizontal, float vertical, bool firing)
+        => Update(seconds, horizontal, vertical, firing, 0, 0, false);
+
+    public void Update(float seconds, float horizontal, float vertical, bool firing,
+        float rivalHorizontal, float rivalVertical, bool rivalFiring)
     {
         if (State != FlightState.Playing || seconds <= 0 || !float.IsFinite(seconds)) return;
         float dt = Math.Min(seconds, .05f);
         Elapsed += dt;
         HitFlash = Math.Max(0, HitFlash - dt);
         playerFire = Math.Max(0, playerFire - dt);
+        rivalFire = Math.Max(0, rivalFire - dt);
         float magnitude = MathF.Sqrt(horizontal * horizontal + vertical * vertical);
         if (magnitude > 1) { horizontal /= magnitude; vertical /= magnitude; }
         // Math.Clamp impide que el jugador salga del escenario.
         AvionJugador.MoverA(
             Math.Clamp(Player.X + horizontal * 270 * dt, 34, Width - 34),
             Math.Clamp(Player.Y + vertical * 270 * dt, 190, Height - 48));
-        // El rival se mueve de lado a lado y cambia de dirección en los bordes.
-        AvionRival.MoverA(Math.Clamp(Enemy.X + enemyDirection * 95 * dt, 44, Width - 44), Enemy.Y);
-        if (Enemy.X <= 44 || Enemy.X >= Width - 44) enemyDirection *= -1;
+        if (Mode == GameMode.Solo)
+        {
+            // El rival automático se mueve de lado a lado.
+            AvionRival.MoverA(Math.Clamp(Enemy.X + enemyDirection * 95 * dt, 44, Width - 44), Enemy.Y);
+            if (Enemy.X <= 44 || Enemy.X >= Width - 44) enemyDirection *= -1;
+        }
+        else
+        {
+            float rivalMagnitude = MathF.Sqrt(rivalHorizontal * rivalHorizontal + rivalVertical * rivalVertical);
+            if (rivalMagnitude > 1) { rivalHorizontal /= rivalMagnitude; rivalVertical /= rivalMagnitude; }
+            AvionRival.MoverA(
+                Math.Clamp(Enemy.X + rivalHorizontal * 270 * dt, 44, Width - 44),
+                Math.Clamp(Enemy.Y + rivalVertical * 270 * dt, 48, 290));
+        }
         if (firing && playerFire <= 0)
         {
             projectiles.Add(AvionJugador.CrearDisparo());
             Shots++;
             playerFire = .22f;
         }
-        enemyFire += dt;
-        if (enemyFire >= .9f)
+        if (Mode == GameMode.Solo)
+        {
+            enemyAutoFire += dt;
+            if (enemyAutoFire >= .9f)
+            {
+                projectiles.Add(AvionRival.CrearDisparo());
+                enemyAutoFire -= .9f;
+            }
+        }
+        else if (rivalFiring && rivalFire <= 0)
         {
             projectiles.Add(AvionRival.CrearDisparo());
-            enemyFire -= .9f;
+            rivalFire = .22f;
         }
         for (int i = projectiles.Count - 1; i >= 0; i--)
         {

@@ -113,4 +113,37 @@ public class FlightGameTests
         Assert.Equal(0, game.Elapsed);
         Assert.Equal(280, game.Player.X);
     }
+
+    [Fact]
+    public void MultijugadorLocal_ControlaDosAvionesSinDisparosAutomaticos()
+    {
+        var game = new FlightGame();
+        game.Start(GameMode.MultijugadorLocal);
+        Assert.Equal(20, game.EnemyHealth);
+        game.Update(.05f, -1, 0, false, 1, 0, true);
+        Assert.True(game.Player.X < 280);
+        Assert.True(game.Enemy.X > 280);
+        Assert.Single(game.Projectiles);
+        Assert.True(game.Projectiles[0].Enemy);
+
+        for (int i = 0; i < 40; i++) game.Update(.05f, 0, 0, false, 0, 0, false);
+        Assert.Empty(game.Projectiles);
+        Assert.Equal(FlightState.Playing, game.State);
+    }
+
+    [Fact]
+    public void MultijugadorLocal_DosImpactosDecidenGanadorYReinicioConservaModo()
+    {
+        var game = new FlightGame();
+        game.Start(GameMode.MultijugadorLocal);
+        for (int i = 0; i < 100 && game.State == FlightState.Playing; i++)
+            game.Update(.05f, 0, 0, true, 0, 0, false);
+        Assert.Equal(FlightState.Victory, game.State);
+        Assert.Equal(0, game.EnemyHealth);
+        Assert.Equal(2, game.Hits);
+
+        game.Start(game.Mode);
+        Assert.Equal(GameMode.MultijugadorLocal, game.Mode);
+        Assert.Equal(20, game.EnemyHealth);
+    }
 }
