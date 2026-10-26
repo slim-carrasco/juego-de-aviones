@@ -5,6 +5,7 @@ namespace JuegoAviones.Core.Interfaces;
 public interface IPartidaRepository
 {
     Task AgregarAsync(Partida partida, CancellationToken cancellationToken);
+    Task AgregarMultiplesAsync(IReadOnlyList<Partida> partidas, CancellationToken cancellationToken);
     Task<Partida?> ObtenerPorIdAsync(int id, CancellationToken cancellationToken);
     Task<IReadOnlyList<Partida>> ObtenerTodasAsync(CancellationToken cancellationToken);
 }

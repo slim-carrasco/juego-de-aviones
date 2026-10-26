@@ -20,6 +20,7 @@
   <ItemGroup>
     <None Update="Assets\condor-fighter.png" CopyToOutputDirectory="PreserveNewest" CopyToPublishDirectory="PreserveNewest" />
     <ProjectReference Include="JuegoAviones.Core\JuegoAviones.Core.csproj" />
+    <ProjectReference Include="JuegoAviones.Contracts\JuegoAviones.Contracts.csproj" />
   </ItemGroup>
 
 </Project>

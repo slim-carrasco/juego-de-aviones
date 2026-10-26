@@ -8,7 +8,7 @@ Para repartir la presentación, consultar la [exposición para cinco personas](E
 
 Se utiliza el caza moderno de la primera propuesta: `Assets/condor-fighter.png`, un PNG de 1024 × 1536 con transparencia. Es una imagen conceptual generada con **imagegen**. El mismo archivo aparece como jugador y rival; el rival se gira 180 grados. Las marcas turquesa y naranja identifican cada bando.
 
-La pantalla conserva una presentación oscura, con el escenario, las aeronaves y las vidas. La vista inicial muestra el avión ampliado para presentar su diseño.
+La pantalla conserva una presentación oscura, con el escenario, las aeronaves y las vidas. En **Modo multijugador local**, dos personas controlan sus aviones en la misma ventana: J1 usa flechas y Espacio; J2 usa WASD y F.
 
 `FlightCanvas` carga el PNG con `Image.FromFile` y lo dibuja con `DrawImage` en la posición del objeto `Aeronave`. El proyecto copia el archivo a la carpeta de salida al compilar y publicar. Para usar un dibujo propio del grupo, basta con sustituir este PNG, conservando su nombre, transparencia y orientación hacia arriba.
 
@@ -35,15 +35,15 @@ La clase `Aeronave`, en `JuegoAviones.Core/Entidades/Aeronave.cs`, representa a 
 
 ```mermaid
 flowchart LR
-    C[Cliente Windows Forms] -->|POST /api/partidas · JSON| S[Servidor HTTP]
-    S --> U[PartidaService]
+    C[Cliente Windows Forms] -->|Acceso y resultados · JSON| S[Servidor HTTP]
+    S --> U[UsuarioService y PartidaService]
     U --> R[Repositorio]
-    R --> D[(PostgreSQL)]
+    R --> D[(MySQL en Docker)]
 ```
 
-El movimiento y el combate se calculan localmente en Core. Al terminar la partida, el formulario envía el resultado a `http://localhost:5080/api/partidas`.
+El movimiento y el combate de ambos jugadores se calculan localmente en Core. La API crea la cuenta inicial, valida un único acceso al entorno y recibe los resultados en `http://localhost:5080/api/partidas` o `/api/partidas/duelo`.
 
-En el servidor, el endpoint recibe el DTO, llama a `PartidaService.RegistrarAsync`, valida el resultado con la entidad `Partida` y lo guarda mediante `IPartidaRepository`. La implementación del repositorio usa PostgreSQL. El servidor también permite consultar el ranking. No es un combate multijugador sincronizado por red.
+En el servidor, el endpoint recibe el DTO, llama a `PartidaService`, valida el resultado con la entidad `Partida` y lo guarda mediante `IPartidaRepository`. La implementación del repositorio usa MySQL. Para un duelo se guardan dos filas bajo la misma cuenta, identificadas como J1 y J2. El servidor también permite consultar el ranking. Los controles son locales en una PC; el servidor no sincroniza partidas entre computadoras.
 
 ## Buenas prácticas que se pueden demostrar
 
@@ -63,7 +63,7 @@ El temporizador de `FlightCanvas` usa `Stopwatch.GetTimestamp` antes de `game.Up
 
 Puedes usar este dato para comparar el costo de actualizar la lógica antes y después de modificarla. El valor depende del equipo y no se presenta como un valor fijo. Las pruebas automatizadas permiten medir cuántos casos verificados pasan o fallan.
 
-El funcionamiento cliente-servidor se demuestra iniciando PostgreSQL y el servidor, terminando una partida y comprobando el resultado guardado. Un indicador de vida es una medida del juego; por sí solo no es una métrica de calidad del software. Las pruebas y la separación de responsabilidades permiten explicar la calidad de esta implementación. Cualquier métrica adicional debe ajustarse a lo que el docente haya pedido expresamente.
+El funcionamiento cliente-servidor se demuestra iniciando MySQL y el servidor, entrando con la cuenta inicial, terminando un duelo y comprobando ambos resultados guardados. Un indicador de vida es una medida del juego; por sí solo no es una métrica de calidad del software. Las pruebas y la separación de responsabilidades permiten explicar la calidad de esta implementación. Cualquier métrica adicional debe ajustarse a lo que el docente haya pedido expresamente.
 
 ## Guía breve para exponer
 
@@ -79,14 +79,14 @@ Una explicación breve sería: «Cada avión es un objeto de la clase Aeronave. 
 ## Ejecutar desde CMD de Windows
 
 ```cmd
-pushd \\wsl.localhost\Ubuntu\home\david\Trabajos_U\juego-de-aviones
+cd /d Z:\juego-de-aviones
 dotnet build JuegoAviones.csproj --no-incremental
 dotnet run --project JuegoAviones.csproj --no-build
 ```
 
-Flechas para moverse, Enter/Espacio para disparar, P/Esc para pausar y R para reiniciar. Enter inicia la partida.
+En individual, flechas para moverse y Espacio para disparar. En multijugador local, J2 usa WASD y F. P/Esc pausa, R reinicia y Enter inicia la partida.
 
-Para guardar resultados, iniciar PostgreSQL y el servidor según el README.
+Para acceder al juego y guardar resultados, iniciar MySQL y el servidor según el README.
 
 ## Prompt de la imagen original
 

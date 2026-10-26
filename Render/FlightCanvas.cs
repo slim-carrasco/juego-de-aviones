@@ -37,11 +37,14 @@ public sealed class FlightCanvas : Control
             previousTime = now;
             float horizontal = (keys.Contains(Keys.Right) ? 1 : 0) - (keys.Contains(Keys.Left) ? 1 : 0);
             float vertical = (keys.Contains(Keys.Down) ? 1 : 0) - (keys.Contains(Keys.Up) ? 1 : 0);
-            bool fire = keys.Contains(Keys.Enter) || keys.Contains(Keys.Space);
+            bool fire = keys.Contains(Keys.Space) || (game.Mode == GameMode.Solo && keys.Contains(Keys.Enter));
+            float rivalHorizontal = (keys.Contains(Keys.D) ? 1 : 0) - (keys.Contains(Keys.A) ? 1 : 0);
+            float rivalVertical = (keys.Contains(Keys.S) ? 1 : 0) - (keys.Contains(Keys.W) ? 1 : 0);
+            bool rivalFire = keys.Contains(Keys.F);
             // Profiling: medir solo el tiempo de la lógica durante la partida.
             bool measuring = game.State == FlightState.Playing;
             long started = Stopwatch.GetTimestamp();
-            game.Update(seconds, horizontal, vertical, fire);
+            game.Update(seconds, horizontal, vertical, fire, rivalHorizontal, rivalVertical, rivalFire);
             if (measuring)
             {
                 updateTotalMilliseconds += Stopwatch.GetElapsedTime(started).TotalMilliseconds;
@@ -76,8 +79,9 @@ public sealed class FlightCanvas : Control
         g.TranslateTransform(offsetX, offsetY);
         g.ScaleTransform(scale, scale);
         g.SmoothingMode = SmoothingMode.AntiAlias;
-        g.DrawString($"Mi avión: {game.PlayerHealth} / 20", titleFont, Brushes.Turquoise, 16, 12);
-        g.DrawString($"Rival: {game.EnemyHealth} / 50", titleFont, Brushes.Coral, 350, 12);
+        g.DrawString($"J1: {game.PlayerHealth} / 20", titleFont, Brushes.Turquoise, 16, 12);
+        g.DrawString($"{(game.Mode == GameMode.MultijugadorLocal ? "J2" : "Rival")}: {game.EnemyHealth} / {game.EnemyMaxHealth}",
+            titleFont, Brushes.Coral, 350, 12);
         g.TranslateTransform(0, 48);
         using (var sky = new LinearGradientBrush(new Rectangle(0, 0, 560, 640),
             Color.FromArgb(26, 53, 74), Color.FromArgb(12, 28, 45), 90f))
@@ -98,8 +102,8 @@ public sealed class FlightCanvas : Control
             {
                 FlightState.Ready => "JUEGO DE AVIONES",
                 FlightState.Paused => "JUEGO EN PAUSA",
-                FlightState.Victory => "¡GANASTE!",
-                _ => "PERDISTE"
+                FlightState.Victory => game.Mode == GameMode.MultijugadorLocal ? "¡GANA J1!" : "¡GANASTE!",
+                _ => game.Mode == GameMode.MultijugadorLocal ? "¡GANA J2!" : "PERDISTE"
             };
             string instruction = game.State == FlightState.Paused ? "Presiona P para continuar" :
                 game.State == FlightState.Ready ? "Presiona Enter para empezar" : "Presiona R para volver a jugar";
@@ -115,7 +119,10 @@ public sealed class FlightCanvas : Control
         string profile = hasProfile ? $"Profiling: lógica {updateAverageMilliseconds:F4} ms (promedio de 60 actualizaciones)" :
             "Profiling: inicia la partida para medir el tiempo de la lógica";
         g.DrawString(profile, textFont, Brushes.LightGray, 12, 693);
-        g.DrawString("Flechas: mover  |  Enter / Espacio: disparar  |  P: pausa  |  R: reiniciar", textFont, Brushes.LightGray, 12, 722);
+        string controls = game.Mode == GameMode.MultijugadorLocal
+            ? "J1: flechas + Espacio  |  J2: WASD + F  |  P: pausa  |  R: reiniciar"
+            : "Flechas: mover  |  Enter / Espacio: disparar  |  P: pausa  |  R: reiniciar";
+        g.DrawString(controls, textFont, Brushes.LightGray, 12, 722);
     }
 
     // El cliente dibuja la imagen usando la posición del objeto Aeronave.
