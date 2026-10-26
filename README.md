@@ -48,7 +48,7 @@ Cada equipo tiene tres lugares por partida. Si llegan más jugadores, esperan la
 
 Cuando los tres aviones de un equipo quedan fuera, el servidor guarda ganador, duración y estadísticas de los seis jugadores en `partidas_equipo` y `detalle_jugador_partida` de MySQL.
 
-Para preparar otras laptops, ejecuta `publicar-cliente.bat` una vez en la VM y copia la carpeta `dist\cliente-windows` a cada laptop. Allí abre `JuegoAviones.exe`; no necesitan SDK ni el repositorio. En **Servidor** escribirán `http://IP_DE_OMARCHY:5080`. **El acceso desde la red Wi-Fi está cerrado por defecto** porque las cuentas de prueba usan contraseñas conocidas y HTTP no cifra el acceso. Cuando se pruebe entre laptops, activa un puente temporal solo en una red privada y ciérralo al terminar. No se copia MySQL ni se ejecuta un servidor por laptop.
+Para preparar otras laptops, ejecuta `publicar-cliente.bat` una vez en la VM y copia la carpeta `dist\cliente-windows` a cada laptop. Allí abre `JuegoAviones.exe`; no necesitan SDK ni el repositorio. En **Servidor** escribirán `http://IP_DE_OMARCHY:5080`. **El acceso desde la red Wi-Fi está cerrado por defecto** porque las cuentas de prueba usan contraseñas conocidas y HTTP no cifra el acceso. Cuando se pruebe entre laptops, sigue la [guía de red local temporal](docs/RED-LOCAL-LAPTOPS.md) y cierra el acceso al terminar. No se copia MySQL ni se ejecuta un servidor por laptop.
 
 Los modos **Solo** y **Duelo local (2)** siguen disponibles. En el duelo local J1 usa flechas y espacio; J2 usa WASD y F. `P`/`Esc` pausa, `R` reinicia y `Enter` inicia o reinicia.
 
